@@ -9,6 +9,7 @@ import {
   useMapEvent,
 } from "react-leaflet";
 import "./Maps.css";
+import GPTcode from "./GPTcode";
 
 function Maps(props) {
   const { selectPosition } = props;
@@ -45,6 +46,29 @@ function Maps(props) {
     });
   }
 
+  function AddMarker() {
+    const [markerPosition, setMarkerPosition] = useState(null);
+    const map = useMap();
+
+    const handleDoubleClick = useCallback(
+      (e) => {
+        const { lat, lng } = e.latlng;
+        if (markerPosition) {
+          map.removeLayer(markerPosition);
+          setMarkerPosition(null);
+        } else {
+          const newMarker = marker([lat, lng]).addTo(map);
+          setMarkerPosition(newMarker);
+        }
+      },
+      [markerPosition, map]
+    );
+
+    useMapEvent("dblclick", handleDoubleClick);
+
+    return null;
+  }
+
   return position === null ? null : (
     <div className="App">
       <MapContainer center={position} zoom={13} doubleClickZoom={false}>
@@ -58,6 +82,7 @@ function Maps(props) {
           </Marker>
         )}
         <JumpToLocation selectPosition={selectPosition} />
+        <GPTcode />
       </MapContainer>
     </div>
   );
