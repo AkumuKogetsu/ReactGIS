@@ -5,7 +5,7 @@ import SearchBox from "./SearchBox";
 function App() {
   const [selectPosition, setSelectPosition] = useState(null);
 
-  console.log(selectPosition);
+  console.log({ selectPosition: selectPosition });
   return (
     <div
       style={{

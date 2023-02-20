@@ -1,5 +1,13 @@
-import { useEffect, useState } from "react";
-import { MapContainer, Marker, TileLayer, Popup, useMap } from "react-leaflet";
+import { marker } from "leaflet";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import {
+  MapContainer,
+  Marker,
+  TileLayer,
+  Popup,
+  useMap,
+  useMapEvent,
+} from "react-leaflet";
 import "./Maps.css";
 
 function Maps(props) {
@@ -7,7 +15,7 @@ function Maps(props) {
   const locationSelection = [selectPosition?.lat, selectPosition?.lon];
   const position = [51.505, -0.09];
 
-  function ResetCenterView(props) {
+  function JumpToLocation(props) {
     const { selectPosition } = props;
     const map = useMap();
 
@@ -22,30 +30,24 @@ function Maps(props) {
     }, [selectPosition]);
     return null;
   }
-  // const [error, setError] = useState(null);
-  // const [isLoaded, setIsLoaded] = useState(false);
-  // const [places, setPlaces] = useState([]);
 
-  // useEffect(() => {
-  //   fetch(
-  //     "https://raw.githubusercontent.com/leighhalliday/react-leaflet-demo/master/src/data/skateboard-parks.json"
-  //   )
-  //     .then((res) => res.json())
-  //     .then(
-  //       (result) => {
-  //         setIsLoaded(true);
-  //         setPlaces(result.features); //Set kepala array "features" sini instead atas marker
-  //       },
-  //       (error) => {
-  //         setIsLoaded(true);
-  //         setError(error);
-  //       }
-  //     );
-  // }, []);
+  function ResetCenterView() {
+    const [centerView, setCenterView] = useState(null);
+    const map = useMapEvent({
+      click() {
+        map.locate();
+      },
+      locationfound(e) {
+        setCenterView(e.latlng);
+        map.flyTo(e.latlng, map.getZoom());
+        console.log(e.latlng);
+      },
+    });
+  }
 
-  return (
+  return position === null ? null : (
     <div className="App">
-      <MapContainer center={position} zoom={13}>
+      <MapContainer center={position} zoom={13} doubleClickZoom={false}>
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -55,7 +57,7 @@ function Maps(props) {
             <Popup></Popup>
           </Marker>
         )}
-        <ResetCenterView selectPosition={selectPosition} />
+        <JumpToLocation selectPosition={selectPosition} />
       </MapContainer>
     </div>
   );
