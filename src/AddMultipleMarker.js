@@ -7,7 +7,10 @@ import {
   useMapEvents,
 } from "react-leaflet";
 
-function GPTcode() {
+// Double click to add marker
+// Single click on marker to show latlong
+// Double click on marker again to remove marker
+function AddMultipleMarker() {
   const [markers, setMarkers] = useState([]);
 
   function handleAddMarker(e) {
@@ -50,4 +53,4 @@ function MapEventHandler({ onDblClick }) {
   return null;
 }
 
-export default GPTcode;
+export default AddMultipleMarker;

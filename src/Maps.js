@@ -9,13 +9,14 @@ import {
   useMapEvent,
 } from "react-leaflet";
 import "./Maps.css";
-import GPTcode from "./GPTcode";
+import AddMultipleMarker from "./AddMultipleMarker";
 
 function Maps(props) {
   const { selectPosition } = props;
   const locationSelection = [selectPosition?.lat, selectPosition?.lon];
   const position = [51.505, -0.09];
 
+  // Jump to clicked list location
   function JumpToLocation(props) {
     const { selectPosition } = props;
     const map = useMap();
@@ -32,6 +33,7 @@ function Maps(props) {
     return null;
   }
 
+  // Reset view to current location
   function ResetCenterView() {
     const [centerView, setCenterView] = useState(null);
     const map = useMapEvent({
@@ -46,6 +48,8 @@ function Maps(props) {
     });
   }
 
+  // Double click to add marker
+  // Double click again to remove marker
   function AddMarker() {
     const [markerPosition, setMarkerPosition] = useState(null);
     const map = useMap();
@@ -82,7 +86,7 @@ function Maps(props) {
           </Marker>
         )}
         <JumpToLocation selectPosition={selectPosition} />
-        <GPTcode />
+        <AddMarker />
       </MapContainer>
     </div>
   );

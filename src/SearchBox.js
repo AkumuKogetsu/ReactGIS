@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+
 import {
   OutlinedInput,
   Button,
@@ -7,6 +8,7 @@ import {
   ListItemIcon,
   ListItemText,
   Divider,
+  Icon,
 } from "@mui/material";
 
 const NOMINATIM_BASE_URL = "https://nominatim.openstreetmap.org/search?";
@@ -19,6 +21,15 @@ export default function SearchBox(props) {
   return (
     <div style={{ display: "flex", flexDirection: "column" }}>
       <div style={{ display: "flex" }}>
+        <div
+          style={{ display: "flex", alignItems: "center", padding: "0px 1px" }}
+        >
+          <Button>
+            <Icon>
+              <span class="material-icons-outlined">gps_fixed</span>
+            </Icon>
+          </Button>
+        </div>
         <div style={{ flex: 1 }}>
           <OutlinedInput
             style={{ width: "100%" }}
