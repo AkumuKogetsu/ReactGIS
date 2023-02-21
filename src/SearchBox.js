@@ -14,9 +14,17 @@ import {
 const NOMINATIM_BASE_URL = "https://nominatim.openstreetmap.org/search?";
 
 export default function SearchBox(props) {
-  const { selecPosition, setSelectPosition } = props;
+  const { selectPosition, setSelectPosition } = props;
   const [searchText, setSearchtext] = useState("");
   const [listPlace, setListPlace] = useState([]);
+
+  // Reset view to current location
+  const ResetCenterView = () => {
+    navigator.geolocation.getCurrentPosition((position) => {
+      const { latitude, longitude } = position.coords;
+      setSelectPosition({ lat: latitude, lon: longitude });
+    });
+  };
 
   return (
     <div style={{ display: "flex", flexDirection: "column" }}>
@@ -24,7 +32,7 @@ export default function SearchBox(props) {
         <div
           style={{ display: "flex", alignItems: "center", padding: "0px 1px" }}
         >
-          <Button>
+          <Button onClick={ResetCenterView}>
             <Icon>
               <span class="material-icons-outlined">gps_fixed</span>
             </Icon>

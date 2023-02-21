@@ -1,5 +1,5 @@
 import { marker } from "leaflet";
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import {
   MapContainer,
   Marker,
@@ -33,27 +33,11 @@ function Maps(props) {
     return null;
   }
 
-  // Reset view to current location
-  function ResetCenterView() {
-    const [centerView, setCenterView] = useState(null);
-    const map = useMapEvent({
-      click() {
-        map.locate();
-      },
-      locationfound(e) {
-        setCenterView(e.latlng);
-        map.flyTo(e.latlng, map.getZoom());
-        console.log(e.latlng);
-      },
-    });
-  }
-
   // Double click to add marker
   // Double click again to remove marker
   function AddMarker() {
     const [markerPosition, setMarkerPosition] = useState(null);
     const map = useMap();
-
     const handleDoubleClick = useCallback(
       (e) => {
         const { lat, lng } = e.latlng;
@@ -80,11 +64,7 @@ function Maps(props) {
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
-        {selectPosition && (
-          <Marker position={locationSelection}>
-            <Popup></Popup>
-          </Marker>
-        )}
+        {selectPosition && <Marker position={locationSelection}></Marker>}
         <JumpToLocation selectPosition={selectPosition} />
         <AddMultipleMarker />
       </MapContainer>
