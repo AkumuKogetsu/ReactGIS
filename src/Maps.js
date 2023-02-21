@@ -86,7 +86,7 @@ function Maps(props) {
           </Marker>
         )}
         <JumpToLocation selectPosition={selectPosition} />
-        <AddMarker />
+        <AddMultipleMarker />
       </MapContainer>
     </div>
   );

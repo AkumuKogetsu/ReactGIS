@@ -26,9 +26,7 @@ function AddMultipleMarker() {
   }
 
   return (
-    <MapContainer center={[51.505, -0.09]} zoom={13} doubleClickZoom={false}>
-      <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-
+    <div>
       {markers.map((marker) => (
         <Marker
           key={marker.id}
@@ -42,7 +40,7 @@ function AddMultipleMarker() {
       ))}
 
       <MapEventHandler onDblClick={handleAddMarker} />
-    </MapContainer>
+    </div>
   );
 }
 
